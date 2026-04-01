@@ -8,23 +8,41 @@ const logger = require('../utils/logger');
 const CONFIG_TEMPLATE = `require('dotenv').config();
 
 module.exports = {
-  // Target network: mainnet | sepolia | goerli | polygon | localhost
+  // Active network — must match a key in the networks map below
   network: "sepolia",
 
-  // RPC endpoint — load from .env (recommended) or paste directly
-  rpcUrl: process.env.RPC_URL,
+  // Per-network RPC configuration
+  // Use your own Alchemy / QuickNode / Infura keys — block67 never touches your keys
+  networks: {
+    sepolia: {
+      rpcUrl: process.env.SEPOLIA_RPC_URL || process.env.RPC_URL,
+      chainId: 11155111,
+    },
+    mainnet: {
+      rpcUrl: process.env.MAINNET_RPC_URL,
+      chainId: 1,
+    },
+    localhost: {
+      rpcUrl: "http://127.0.0.1:8545",
+      chainId: 31337,
+    },
+    // polygon: {
+    //   rpcUrl: process.env.POLYGON_RPC_URL,
+    //   chainId: 137,
+    // },
+  },
 
-  // Deployer wallet private key — NEVER commit this to git
+  // Deployer wallet private key — NEVER commit this to git, always load from .env
   privateKey: process.env.PRIVATE_KEY,
 
-  // Optional: override gas limit globally
+  // Optional: global gas limit override (can also be set per-contract below)
   // gasLimit: 3000000,
 
   contracts: {
-    // Contract name must match your compiled artifact filename
-    // e.g. artifacts/MyToken.json
+    // Key = contract name = artifact filename in artifacts/<Name>.json
     MyToken: {
-      args: ["Test Token", "TT", 1000000]
+      args: ["Test Token", "TT", 1000000],
+      // gasLimit: 2000000,  // per-contract override
     }
   }
 };
@@ -34,13 +52,21 @@ const ENV_TEMPLATE = `# block67 environment variables
 # Copy this file to .env and fill in your values
 # NEVER commit your actual .env to git
 
-RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
-PRIVATE_KEY=YOUR_DEPLOYER_WALLET_PRIVATE_KEY_WITHOUT_0x
+# Per-network RPC URLs — use your own Alchemy / QuickNode / Infura keys
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
+MAINNET_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
+# POLYGON_RPC_URL=https://polygon-mainnet.g.alchemy.com/v2/YOUR_KEY
 
-# Optional: enable full stack traces on error
+# Fallback (used if a network-specific var is not set)
+RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
+
+# Deployer wallet private key (64-char hex, with or without 0x prefix)
+PRIVATE_KEY=YOUR_DEPLOYER_WALLET_PRIVATE_KEY
+
+# Optional: show full stack traces on errors
 # BLOCK67_DEBUG=1
 
-# Optional: AI-powered error diagnostics (Claude)
+# Optional: Anthropic API key for AI-powered error diagnostics
 # ANTHROPIC_API_KEY=your_key_here
 `;
 
@@ -48,6 +74,7 @@ const GITIGNORE_ADDITION = `
 # block67
 .env
 artifacts/
+block67-state.json
 `;
 
 async function initCommand() {
