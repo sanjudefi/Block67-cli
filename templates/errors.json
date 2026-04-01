@@ -1,0 +1,112 @@
+{
+  "gas estimation failed": {
+    "reason": "The transaction ran out of gas or the contract logic caused a revert during estimation.",
+    "fix": "Check your constructor arguments, verify require/revert conditions, and make sure the contract compiles cleanly.",
+    "docs": "https://docs.ethers.org/v6/api/providers/#Provider-estimateGas"
+  },
+  "invalid opcode": {
+    "reason": "The EVM hit an invalid instruction — usually caused by an assert() failure or a compiler bug.",
+    "fix": "Check all assert() statements in your contract. Make sure you're using a stable Solidity compiler version.",
+    "docs": "https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require"
+  },
+  "nonce too low": {
+    "reason": "The nonce you used is already taken by a previously submitted transaction.",
+    "fix": "Wait for pending transactions to confirm, or reset your wallet nonce in your RPC provider settings.",
+    "docs": "https://ethereum.org/en/developers/docs/transactions/#transaction-nonce"
+  },
+  "nonce too high": {
+    "reason": "The nonce is ahead of the expected value — there may be a gap in transactions.",
+    "fix": "Check pending transactions in your wallet and use the correct sequential nonce.",
+    "docs": "https://ethereum.org/en/developers/docs/transactions/#transaction-nonce"
+  },
+  "insufficient funds": {
+    "reason": "Your wallet does not have enough ETH to cover gas fees for this transaction.",
+    "fix": "Add funds to your deployer wallet. Use a faucet if you are on a testnet like Sepolia or Goerli.",
+    "docs": "https://sepoliafaucet.com"
+  },
+  "replacement transaction underpriced": {
+    "reason": "You tried to replace a pending transaction but offered a gas price that is too low.",
+    "fix": "Increase the gas price by at least 10% over the original transaction's gas price.",
+    "docs": "https://docs.ethers.org/v6/api/providers/#TransactionRequest"
+  },
+  "transaction reverted": {
+    "reason": "The contract execution was reverted — a require() or revert() condition was not met.",
+    "fix": "Read the revert reason in the error message. Check the require() conditions in the constructor or called function.",
+    "docs": "https://docs.soliditylang.org/en/latest/control-structures.html#revert"
+  },
+  "execution reverted": {
+    "reason": "The smart contract explicitly reverted the transaction, likely due to a failed validation check.",
+    "fix": "Inspect your contract's require() and revert() statements. Ensure all input arguments are valid.",
+    "docs": "https://docs.soliditylang.org/en/latest/control-structures.html#revert"
+  },
+  "cannot estimate gas": {
+    "reason": "ethers.js could not estimate gas — the transaction would fail on-chain.",
+    "fix": "Verify contract ABI, constructor arguments, and RPC connection. Try deploying with a manual gasLimit.",
+    "docs": "https://docs.ethers.org/v6/api/contract/#ContractFactory-deploy"
+  },
+  "invalid private key": {
+    "reason": "The PRIVATE_KEY in your .env file is not a valid Ethereum private key.",
+    "fix": "Make sure your PRIVATE_KEY is a 64-character hex string (with or without '0x' prefix).",
+    "docs": null
+  },
+  "could not detect network": {
+    "reason": "block67 could not connect to the blockchain network via the provided RPC URL.",
+    "fix": "Check that RPC_URL in your .env is correct and the node/provider is reachable. Try pinging the URL.",
+    "docs": "https://chainlist.org"
+  },
+  "network does not support ens": {
+    "reason": "The network you are connecting to does not have ENS (Ethereum Name Service) support.",
+    "fix": "This is usually safe to ignore for contract deployment. If you are resolving ENS names, switch to Ethereum mainnet or Goerli.",
+    "docs": null
+  },
+  "contract creation code storage out of gas": {
+    "reason": "Your contract bytecode is too large to deploy within the block gas limit.",
+    "fix": "Reduce contract size by splitting into multiple contracts, using libraries, or removing unused logic.",
+    "docs": "https://ethereum.org/en/developers/tutorials/downsizing-contracts-to-fight-the-contract-size-limit/"
+  },
+  "abi not found": {
+    "reason": "block67 could not find a compiled ABI for the specified contract.",
+    "fix": "Make sure the contract is compiled. Place the ABI file at artifacts/<ContractName>.json with an 'abi' and 'bytecode' field.",
+    "docs": null
+  },
+  "bytecode not found": {
+    "reason": "The artifact file was found but has no deployable bytecode.",
+    "fix": "Re-compile your contract. Make sure it is not an interface or abstract contract.",
+    "docs": null
+  },
+  "artifact not found": {
+    "reason": "No compiled artifact file was found for this contract name.",
+    "fix": "Compile your contract first and place the artifact JSON at artifacts/<ContractName>.json.",
+    "docs": null
+  },
+  "config not found": {
+    "reason": "block67.config.js was not found in the current directory.",
+    "fix": "Run 'block67 init' to create a default config file in your project root.",
+    "docs": null
+  },
+  "private key not set": {
+    "reason": "PRIVATE_KEY environment variable is not set.",
+    "fix": "Create a .env file in your project root with PRIVATE_KEY=<your_key> or set it in your environment.",
+    "docs": null
+  },
+  "rpc url not set": {
+    "reason": "RPC_URL environment variable is not set.",
+    "fix": "Add RPC_URL=<your_rpc_endpoint> to your .env file. Get a free endpoint from Alchemy or Infura.",
+    "docs": "https://www.alchemy.com"
+  },
+  "timeout": {
+    "reason": "The RPC request timed out. The provider may be slow or unreachable.",
+    "fix": "Try a different RPC provider URL or check your internet connection.",
+    "docs": "https://chainlist.org"
+  },
+  "network changed": {
+    "reason": "The network changed mid-request, which may indicate RPC instability.",
+    "fix": "Use a reliable RPC provider like Alchemy or Infura. Avoid public RPC endpoints for production.",
+    "docs": null
+  },
+  "unpredictable gas limit": {
+    "reason": "Gas estimation failed because the transaction would revert on-chain.",
+    "fix": "Check your constructor arguments. Try manually setting a gasLimit in block67.config.js.",
+    "docs": null
+  }
+}
