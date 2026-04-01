@@ -1,0 +1,38 @@
+{
+  "name": "block67",
+  "version": "1.0.0",
+  "description": "Developer-first CLI tool to deploy smart contracts with speed, clarity, and helpful error diagnostics.",
+  "main": "bin/block67.js",
+  "bin": {
+    "block67": "./bin/block67.js"
+  },
+  "scripts": {
+    "start": "node bin/block67.js",
+    "test": "node bin/block67.js --help"
+  },
+  "keywords": [
+    "blockchain",
+    "smart-contracts",
+    "solidity",
+    "cli",
+    "ethereum",
+    "deploy",
+    "hardhat-alternative",
+    "web3",
+    "block67"
+  ],
+  "author": "Block67",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "4.1.2",
+    "commander": "^11.1.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "ora": "5.4.1",
+    "inquirer": "^9.2.15",
+    "fs-extra": "^11.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
